@@ -6,7 +6,6 @@ class Barang:
         self.kodeBarang = kodeBarang
         self.stokBarang = stokBarang
 
-arr = [Barang('B', '1', 1), Barang('A', '2', 1), Barang('C', '3', 1), Barang('D', '4', 1)]
 
 def binarySearch(arr, valueToSearch, x=0, y=-1, key=lambda x: x.kodeBarang):
     if (y == -1):
@@ -74,7 +73,9 @@ def showDataWithPagination(arr, rowsPerPage=5, currentPage=1):
     
     if userInput == 3:
         rowsPerPage = inputInt("Masukan jumlah baris perhalaman: ", lowerBound = 1)
+        os.system("cls")
         showDataWithPagination(arr, rowsPerPage)
+# END Jose
 
 
 #Veronica Yose Ardilla
@@ -86,23 +87,17 @@ def updateData(arr):
         if hasilCari == -1:
             print("\nKode Barang tidak ditemukan")
         else:
-            pilihan = int(input("\n----SILAHKAN PILIH----\n1. Ubah Nama Barang\n2. Ubah Stok Barang\nPilih Menu : "))
+            pilihan = inputInt("----SILAHKAN PILIH----\n1. Ubah Nama Barang\n2. Ubah Stok Barang\nPilih Menu : ", 2, 1)
             if pilihan == 1:
                 arr[hasilCari].namaBarang = ''
                 while arr[hasilCari].namaBarang == '':
-                    arr[hasilCari].namaBarang = str(input("\nMasukkan nama barang baru : "))
+                    arr[hasilCari].namaBarang = str(input("Masukkan nama barang baru : "))
                     if arr[hasilCari].namaBarang == '':
-                        print("Nama barang tidak boleh kosong")
-            elif pilihan == 2 :
-                arr[hasilCari].stokBarang = ''
-                while arr[hasilCari].stokBarang == '':
-                    arr[hasilCari].stokBarang = int(input("\nMasukkan stok barang baru : "))
-                    if arr[hasilCari].stokBarang == '':
-                        print("Stok barang tidak boleh kosong")
-            else:
-                print("\nAngka tidak valid")
-        ulang = input("\nUlangi? (Y/n): ")
-        print("\n")
+                        print("Nama Barang tidak boleh kosong")
+            else :
+                arr[hasilCari].stokBarang = inputInt("Masukkan stok barang baru : ", lowerBound=1)
+        ulang = input("Ulangi? (Y/n): ")
+
 
 def viewData(arr, startingNo=1):
     print("\n----------DAFTAR---------")
@@ -112,13 +107,17 @@ def viewData(arr, startingNo=1):
         line_new = '{:>1} {:>2} {:>1} {:>20} {:>1} {:>14} {:>1} {:>14} {:>1}' .format("|", no, "|", arr[x].namaBarang, "|", arr[x].stokBarang, "|", arr[x].kodeBarang, "|")
         print(line_new)
 
+# END Veronica
+
 # Melania
 def deleteData(arr):
     namaBarang =  ["Barang ('B', '1', 1)", "Barang ('A', '2', 1)", "Barang ('C', '3', 1)", "Barang('D', '4', 1"]
     print(namaBarang)
     namaBarang.pop()
     print(namaBarang)
+# END Melania
 
+# Rachel
 def tambahBarang():
     kodebarang = input("Masukan Kode barang: ")
     Namabarang = input("Masukan Nama barang: ")
@@ -126,6 +125,7 @@ def tambahBarang():
     list1 = [kodebarang,Namabarang,Stok]
     list2.append(list1)
     data = data + 1
+# END Rachel
 
 # Jose
 def inputInt(prompt: str, upperBound: int = None, lowerBound: int = None):
@@ -191,8 +191,9 @@ def main():
     main()
 
 ulangi = "y"
+arr = [Barang('B', '1', 1), Barang('A', '2', 1), Barang('C', '3', 1), Barang('D', '4', 1)]
 
 while ulangi == "y" or ulangi == "Y":
+    os.system("cls")
     main()
     ulangi = input("Ulangi main menu (Y/n)? ")
-    os.system("cls")
