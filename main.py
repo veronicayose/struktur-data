@@ -40,7 +40,7 @@ def updateData(arr):
         if hasilCari == -1:
             print("\nKode Barang tidak ditemukan")
         else:
-            pilihan = int(input("\n----SILAHKAN PILIH----\n1. Ubah Nama Barang\n2. Ubah Kode Barang\nPilih Menu : "))
+            pilihan = int(input("\n----SILAHKAN PILIH----\n1. Ubah Nama Barang\n2. Ubah Stok Barang\nPilih Menu : "))
             if pilihan == 1:
                 arr[hasilCari].namaBarang = ''
                 while arr[hasilCari].namaBarang == '':
@@ -55,7 +55,7 @@ def updateData(arr):
                         print("Stok barang tidak boleh kosong")
             else:
                 print("\nAngka tidak valid")
-        ulang = input("\nUlangi? (y/n): ")
+        ulang = input("\nUlangi? (Y/n): ")
         print("\n")
 
 def viewData(arr):
@@ -67,15 +67,63 @@ def viewData(arr):
         print(line_new)
 
 # Melania
-namaBarang =  ["Barang ('B', '1', 1)", "Barang ('A', '2', 1)", "Barang ('C', '3', 1)", "Barang('D', '4', 1"]
-print(namaBarang)
-namaBarang.pop()
-print(namaBarang)
+def deleteData(arr):
+    namaBarang =  ["Barang ('B', '1', 1)", "Barang ('A', '2', 1)", "Barang ('C', '3', 1)", "Barang('D', '4', 1"]
+    print(namaBarang)
+    namaBarang.pop()
+    print(namaBarang)
 
 # Jose
-print("Selamat datang di program CRUD Barang")
-print("Pilih menu:")
-print("1. Lihat daftar barang")
-print("2. Tambah barang")
-print("3. Ubah barang")
-print("1. Lihat daftar barang")
+def inputInt(prompt: str, upperBound: int = None, lowerBound: int = None):
+    try:
+        result = int(input(prompt))
+        if (upperBound != None and lowerBound != None):
+            if (result > upperBound or result < lowerBound):
+                print(f"Masukan angka {lowerBound} s/d {upperBound}")
+                return inputInt(prompt, upperBound, lowerBound)
+
+            else:
+                return result
+        elif (upperBound != None):
+            if (result > upperBound):
+                print(f"Masukan angka kurang atau sama dengan {upperBound}")
+                return inputInt(prompt, upperBound, lowerBound)
+            else:
+                return result
+
+        elif (lowerBound != None):
+            if (result < lowerBound):
+                print(f"Masukan angka lebih atau sama dengan {lowerBound}")
+                return inputInt(prompt, upperBound, lowerBound)
+            else:
+                return result
+        
+        else:
+            return result
+
+    except ValueError:
+        print("Hanya boleh memasukan angka")
+        return inputInt(prompt, upperBound, lowerBound)
+
+
+def main():
+    print("Selamat datang di program CRUD Barang")
+    print("Pilih menu:")
+    print("1. Lihat daftar barang")
+    print("2. Tambah barang")
+    print("3. Ubah barang")
+    print("4. Hapus barang")
+    print("5. Mengurutkan barang")
+    pilihan = inputInt("Pilih menu: ", 5, 1)
+    if pilihan == 1:
+        viewData(arr)
+    elif pilihan == 2:
+        pass
+    elif pilihan == 3:
+        updateData(arr)
+    elif pilihan == 4:
+        deleteData(arr)
+    elif pilihan == 5:
+        sort(arr)
+
+main()
