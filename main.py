@@ -1,3 +1,4 @@
+import os
 # Jose Ryu Leonesta
 class Barang:
     def __init__(self, namaBarang: str, kodeBarang: str, stokBarang: int):
@@ -31,6 +32,51 @@ def sort(arr, key=lambda x, y: x.kodeBarang > y.kodeBarang):
             if key(arr[i], arr[j]):
                 arr[i], arr[j] = arr[j], arr[i]
 
+def fetchData(arr, lowerBound, upperBound):
+    result = []
+
+    if upperBound >= len(arr):
+        upperBound = len(arr)
+
+    for i in range(lowerBound, upperBound):
+        result.append(arr[i])
+    
+    return result
+
+def showDataWithPagination(arr, rowsPerPage=5, currentPage=1):
+    lowerBound = rowsPerPage * currentPage - rowsPerPage
+    upperBound = rowsPerPage * currentPage
+
+    print(f"Halaman: {currentPage}")
+
+    fetchedData = fetchData(arr, lowerBound, upperBound)
+    viewData(fetchedData, lowerBound + 1)
+    print("Pilihan: ")
+    print("1. Halaman selanjutnya")
+    print("2. Halaman sebelumnya")
+    print("3. Ganti jumlah baris per halaman")
+    print("4. Keluar")
+    userInput = inputInt("Pilih menu: ", 4, 1)
+
+    if userInput == 1:
+        os.system("cls")
+        if upperBound >= len(arr):
+            showDataWithPagination(arr, rowsPerPage, currentPage)
+        else:
+            showDataWithPagination(arr, rowsPerPage, currentPage + 1)
+
+    if userInput == 2:
+        os.system("cls")
+        if lowerBound <= 0:
+            showDataWithPagination(arr, rowsPerPage, currentPage)
+        else:
+            showDataWithPagination(arr, rowsPerPage, currentPage - 1)
+    
+    if userInput == 3:
+        rowsPerPage = inputInt("Masukan jumlah baris perhalaman: ", lowerBound = 1)
+        showDataWithPagination(arr, rowsPerPage)
+
+
 #Veronica Yose Ardilla
 def updateData(arr):
     ulang = 'y'
@@ -58,11 +104,11 @@ def updateData(arr):
         ulang = input("\nUlangi? (Y/n): ")
         print("\n")
 
-def viewData(arr):
+def viewData(arr, startingNo=1):
     print("\n----------DAFTAR---------")
     print('{:>1} {:>2} {:>1} {:>20} {:>1} {:>14} {:>1} {:>14} {:>1}' .format("|", "No", "|", "Nama Barang", "|", "Stok Barang", "|", "Kode Barang", "|"))
     for x in range (len(arr)):
-        no = x+1
+        no = startingNo + x
         line_new = '{:>1} {:>2} {:>1} {:>20} {:>1} {:>14} {:>1} {:>14} {:>1}' .format("|", no, "|", arr[x].namaBarang, "|", arr[x].stokBarang, "|", arr[x].kodeBarang, "|")
         print(line_new)
 
@@ -72,6 +118,14 @@ def deleteData(arr):
     print(namaBarang)
     namaBarang.pop()
     print(namaBarang)
+
+def tambahBarang():
+    kodebarang = input("Masukan Kode barang: ")
+    Namabarang = input("Masukan Nama barang: ")
+    Stok = input("Masukan Stok: ")
+    list1 = [kodebarang,Namabarang,Stok]
+    list2.append(list1)
+    data = data + 1
 
 # Jose
 def inputInt(prompt: str, upperBound: int = None, lowerBound: int = None):
@@ -105,7 +159,6 @@ def inputInt(prompt: str, upperBound: int = None, lowerBound: int = None):
         print("Hanya boleh memasukan angka")
         return inputInt(prompt, upperBound, lowerBound)
 
-
 def main():
     print("Selamat datang di program CRUD Barang")
     print("Pilih menu:")
@@ -114,9 +167,12 @@ def main():
     print("3. Ubah barang")
     print("4. Hapus barang")
     print("5. Mengurutkan barang")
-    pilihan = inputInt("Pilih menu: ", 5, 1)
+    print("6. Keluar")
+    pilihan = inputInt("Pilih menu: ", 6, 1)
     if pilihan == 1:
-        viewData(arr)
+        os.system("cls")
+        showDataWithPagination(arr)
+        os.system("cls")
     elif pilihan == 2:
         pass
     elif pilihan == 3:
@@ -125,5 +181,18 @@ def main():
         deleteData(arr)
     elif pilihan == 5:
         sort(arr)
+        print("Data telah diurutkan berdasarkan kode")
+        input("Tekan enter untuk melanjutkan...")
+        os.system("cls")
+    elif pilihan == 6:
+        print("Terimakasih...")
+        exit()
+    
+    main()
 
-main()
+ulangi = "y"
+
+while ulangi == "y" or ulangi == "Y":
+    main()
+    ulangi = input("Ulangi main menu (Y/n)? ")
+    os.system("cls")
