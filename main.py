@@ -1,4 +1,5 @@
 import os
+import math
 # Jose Ryu Leonesta
 class Barang:
     def __init__(self, namaBarang: str, kodeBarang: str, stokBarang: int):
@@ -42,39 +43,62 @@ def fetchData(arr, lowerBound, upperBound):
     
     return result
 
-def showDataWithPagination(arr, rowsPerPage=5, currentPage=1):
+def filter(arr, searchKey):
+    result = []
+    for x in arr:
+        if searchKey.lower() in x.namaBarang.lower() or searchKey.lower() in x.kodeBarang.lower():
+            result.append(x)
+    
+    return result
+
+def showDataWithPagination(arr, rowsPerPage=5, currentPage=1, searchKey=""):
     lowerBound = rowsPerPage * currentPage - rowsPerPage
     upperBound = rowsPerPage * currentPage
-
-    print(f"Halaman: {currentPage}")
+ 
+    print(f"Halaman: {currentPage} dari {math.ceil(len(arr) / rowsPerPage)}")
+    print(f"Jumlah barang: {len(arr)}")
+    if len(searchKey):
+        print(f"Kata cari: '{searchKey}'")
 
     fetchedData = fetchData(arr, lowerBound, upperBound)
+
     viewData(fetchedData, lowerBound + 1)
     print("Pilihan: ")
     print("1. Halaman selanjutnya")
     print("2. Halaman sebelumnya")
     print("3. Ganti jumlah baris per halaman")
-    print("4. Keluar")
-    userInput = inputInt("Pilih menu: ", 4, 1)
+    print("4. Cari barang")
+    print("5. Keluar")
+    userInput = inputInt("Pilih menu: ", 5, 1)
 
     if userInput == 1:
         os.system("cls")
         if upperBound >= len(arr):
-            showDataWithPagination(arr, rowsPerPage, currentPage)
+            showDataWithPagination(arr, rowsPerPage, currentPage, searchKey)
         else:
-            showDataWithPagination(arr, rowsPerPage, currentPage + 1)
+            showDataWithPagination(arr, rowsPerPage, currentPage + 1, searchKey)
 
     if userInput == 2:
         os.system("cls")
         if lowerBound <= 0:
-            showDataWithPagination(arr, rowsPerPage, currentPage)
+            showDataWithPagination(arr, rowsPerPage, currentPage, searchKey)
         else:
-            showDataWithPagination(arr, rowsPerPage, currentPage - 1)
+            showDataWithPagination(arr, rowsPerPage, currentPage - 1, searchKey)
     
     if userInput == 3:
         rowsPerPage = inputInt("Masukan jumlah baris perhalaman: ", lowerBound = 1)
         os.system("cls")
-        showDataWithPagination(arr, rowsPerPage)
+        showDataWithPagination(arr, rowsPerPage, searchKey=searchKey)
+    
+    if userInput == 4:
+        searchKey = input("Masukan kata cari: ")
+        newArr = filter(arr, searchKey)
+        os.system("cls")
+        if len(newArr) == 0:
+            print(f"Tidak menemukan barang dengan kata kunci '{searchKey}'")
+            showDataWithPagination(arr, rowsPerPage)
+        else:
+            showDataWithPagination(newArr, rowsPerPage, searchKey=searchKey)
 # END Jose
 
 
@@ -95,7 +119,7 @@ def updateData(arr):
                     if arr[hasilCari].namaBarang == '':
                         print("Nama Barang tidak boleh kosong")
             else :
-                arr[hasilCari].stokBarang = inputInt("Masukkan stok barang baru : ", lowerBound=1)
+                arr[hasilCari].stokBarang = inputInt("Masukkan stok barang baru : ", lowerBound=0)
         ulang = input("Ulangi? (Y/n): ")
 
 
@@ -111,10 +135,19 @@ def viewData(arr, startingNo=1):
 
 # Melania
 def deleteData(arr):
-    namaBarang =  ["Barang ('B', '1', 1)", "Barang ('A', '2', 1)", "Barang ('C', '3', 1)", "Barang('D', '4', 1"]
-    print(namaBarang)
-    namaBarang.pop()
-    print(namaBarang)
+    ulang = 'y'
+    while ulang == "Y" or ulang =='y':
+        kodeBarang = input("Masukan Kode Barang : ")
+        posisiBarang = binarySearch(arr, kodeBarang)
+        if posisiBarang == -1:
+                print("Barang tidak ditemukan")
+        else:
+            Konfirmasi = inputInt("Yakin ingin menghapus barang?\n1. Ya\n2. Tidak\nPilih Menu : ", 2, 1)
+            if Konfirmasi == 1:
+                del arr[posisiBarang]
+                print('Barang{namaBarang} terhapus')
+        
+        ulang = input("Lanjut menghapus barang (Y/n)? ")
 # END Melania
 
 # Rachel
@@ -174,7 +207,7 @@ def main():
         showDataWithPagination(arr)
         os.system("cls")
     elif pilihan == 2:
-        pass
+        tambahBarang()
     elif pilihan == 3:
         updateData(arr)
     elif pilihan == 4:
@@ -191,7 +224,7 @@ def main():
     main()
 
 ulangi = "y"
-arr = [Barang('B', '1', 1), Barang('A', '2', 1), Barang('C', '3', 1), Barang('D', '4', 1)]
+arr = [Barang('Testing', '1', 1), Barang('Test', '2', 1), Barang('Ing', 'Test', 1), Barang('Ingatan', '4', 1)]
 
 while ulangi == "y" or ulangi == "Y":
     os.system("cls")
