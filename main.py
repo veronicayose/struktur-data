@@ -1,6 +1,11 @@
 import os
 import math
+
+# Kelompok 2
 # Jose Ryu Leonesta
+# Veronica Yose Ardilla
+# Melania
+# Rachel Esther Cornelis
 class Barang:
     def __init__(self, namaBarang: str, kodeBarang: str, stokBarang: int):
         self.namaBarang = namaBarang
@@ -12,10 +17,10 @@ def binarySearch(arr, valueToSearch, x=0, y=-1, key=lambda x: x.kodeBarang):
     if (y == -1):
         y = len(arr)
 
-    middleIndex = int(x + (y - x) / 2)
-
     if (y <= x):
         return -1
+
+    middleIndex = int(x + (y - x) / 2)
     
     if (key(arr[middleIndex]) == valueToSearch):
         return middleIndex
@@ -44,6 +49,9 @@ def fetchData(arr, lowerBound, upperBound):
     return result
 
 def filter(arr, searchKey):
+    if len(searchKey) == 0:
+        return arr
+
     result = []
     for x in arr:
         if searchKey.lower() in x.namaBarang.lower() or searchKey.lower() in x.kodeBarang.lower():
@@ -57,6 +65,7 @@ def showDataWithPagination(arr, rowsPerPage=5, currentPage=1, searchKey=""):
  
     print(f"Halaman: {currentPage} dari {math.ceil(len(arr) / rowsPerPage)}")
     print(f"Jumlah barang: {len(arr)}")
+    print(f"Jumlah baris per halaman: {rowsPerPage}")
     if len(searchKey):
         print(f"Kata cari: '{searchKey}'")
 
@@ -92,15 +101,28 @@ def showDataWithPagination(arr, rowsPerPage=5, currentPage=1, searchKey=""):
     
     if userInput == 4:
         searchKey = input("Masukan kata cari: ")
-        newArr = filter(arr, searchKey)
+        newArr = filter(daftarBarang, searchKey)
         os.system("cls")
         if len(newArr) == 0:
             print(f"Tidak menemukan barang dengan kata kunci '{searchKey}'")
             showDataWithPagination(arr, rowsPerPage)
         else:
             showDataWithPagination(newArr, rowsPerPage, searchKey=searchKey)
-# END Jose
 
+def generatePrimaryKey(arr):
+    lastKey = arr[-1].kodeBarang[1:]
+    return f"P{int(lastKey) + 1}"
+    
+    
+
+def tambahBarang(arr):
+    print("--Menambahkan barang--")
+    namaBarang = input("Masukan nama barang: ")
+    stokBarang = inputInt("Masukan stok barang: ", lowerBound=0)
+    arr.append(Barang(namaBarang, generatePrimaryKey(arr), stokBarang))
+    print(f"{namaBarang} berhasil ditambahkan.")
+    sort(arr)
+# END Jose
 
 #Veronica Yose Ardilla
 def updateData(arr):
@@ -140,7 +162,7 @@ def deleteData(arr):
         kodeBarang = input("Masukan Kode Barang : ")
         posisiBarang = binarySearch(arr, kodeBarang)
         if posisiBarang == -1:
-                print("Barang tidak ditemukan")
+            print("Barang tidak ditemukan")
         else:
             Konfirmasi = inputInt("Yakin ingin menghapus barang?\n1. Ya\n2. Tidak\nPilih Menu : ", 2, 1)
             if Konfirmasi == 1:
@@ -150,15 +172,8 @@ def deleteData(arr):
         ulang = input("Lanjut menghapus barang (Y/n)? ")
 # END Melania
 
-# Rachel
-def tambahBarang():
-    kodebarang = input("Masukan Kode barang: ")
-    Namabarang = input("Masukan Nama barang: ")
-    Stok = input("Masukan Stok: ")
-    list1 = [kodebarang,Namabarang,Stok]
-    list2.append(list1)
-    data = data + 1
-# END Rachel
+# Jose
+# END Jose
 
 # Jose
 def inputInt(prompt: str, upperBound: int = None, lowerBound: int = None):
@@ -204,16 +219,17 @@ def main():
     pilihan = inputInt("Pilih menu: ", 6, 1)
     if pilihan == 1:
         os.system("cls")
-        showDataWithPagination(arr)
+        showDataWithPagination(daftarBarang)
         os.system("cls")
     elif pilihan == 2:
-        tambahBarang()
+        os.system("cls")
+        tambahBarang(daftarBarang)
     elif pilihan == 3:
-        updateData(arr)
+        updateData(daftarBarang)
     elif pilihan == 4:
-        deleteData(arr)
+        deleteData(daftarBarang)
     elif pilihan == 5:
-        sort(arr)
+        sort(daftarBarang)
         print("Data telah diurutkan berdasarkan kode")
         input("Tekan enter untuk melanjutkan...")
         os.system("cls")
@@ -224,7 +240,7 @@ def main():
     main()
 
 ulangi = "y"
-arr = [Barang('Testing', '1', 1), Barang('Test', '2', 1), Barang('Ing', 'Test', 1), Barang('Ingatan', '4', 1)]
+daftarBarang = [Barang('Piring', 'P1', 1), Barang('Gelas', 'P2', 1), Barang('Sendok', 'P3', 1), Barang('Mangkuk', 'P4', 1)]
 
 while ulangi == "y" or ulangi == "Y":
     os.system("cls")
