@@ -61,6 +61,7 @@ class DataStruct:
         self.antrian = None
         self.itemsCount = 0
     
+    # Jose
     def add(self, value):
         if self.items == None:
             self.items = BinaryTree(value)
@@ -99,11 +100,12 @@ class DataStruct:
                 self.showDataWithPagination(rowsPerPage, currentPage)
 
         if userInput == 3:
-            rowsPerPage = inputInt("Masukan jumlha baris per halaman: ")
+            rowsPerPage = inputInt("Masukan jumlah baris per halaman: ")
             os.system("cls")
             self.showDataWithPagination(rowsPerPage)
         
 # Jose
+# Optional
 def inputInt(prompt: str, upperBound: int = None, lowerBound: int = None):
     try:
         result = int(input(prompt))
@@ -147,8 +149,8 @@ def showTable(arr, startingNo=1):
 def tambahBarang():
     print("--Menambahkan Barang--")
     namaBarang = input("Masukan nama barang: ")
+    kodeBarang = input("Masukan kode barang: ")
     stokBarang = inputInt("Masukan jumlah stok barang: ")
-    kodeBarang = namaBarang
     struct.add(Barang(namaBarang, kodeBarang, stokBarang))
 
 def hapusBarang():
@@ -163,11 +165,35 @@ def tambahAntrian():
     struct.addQueue(kodeBarang, jumlahBarang)
 
 
-struct = DataStruct()
-struct.add(Barang('C', 'C', 2))
-struct.add(Barang('B', 'B', 2))
-struct.add(Barang('A', 'A', 2))
-struct.add(Barang('T', 'T', 2))
-struct.add(Barang('L', 'L', 2))
+def main():
+    print("Selamat datang di program CRUD Barang")
+    print("Pilih menu:")
+    print("1. Lihat daftar barang")
+    print("2. Tambah barang")
+    print("3. Ubah barang")
+    print("4. Hapus barang")
+    print("5. Keluar")
+    pilihan = inputInt("Pilih menu: ", 6, 1)
+    if pilihan == 1:
+        os.system("cls")
+        try:
+            struct.showDataWithPagination()
+        except:
+            os.system("cls")
+            print("Data sedang kosong")
+    elif pilihan == 2:
+        os.system("cls")
+        tambahBarang()
+    elif pilihan == 3:
+        pass
+    elif pilihan == 4:
+        pass
+    elif pilihan == 5:
+        print("Terimakasih...")
+        exit()
+    
+    main()
 
-struct.showDataWithPagination(2)
+struct = DataStruct()
+
+main()
