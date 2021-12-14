@@ -81,9 +81,8 @@ class DataStruct:
         print("1. Halaman selanjutnya")
         print("2. Halaman sebelumnya")
         print("3. Ganti jumlah baris per halaman")
-        print("4. Cari barang")
-        print("5. Keluar")
-        userInput = inputInt("Pilih menu: ", 5, 1)
+        print("4. Keluar")
+        userInput = inputInt("Pilih menu: ", 4, 1)
 
         if userInput == 1:
             os.system("cls")
