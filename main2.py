@@ -31,6 +31,29 @@ class BinaryTree:
             else:
                 self.right.add(value)
     
+    # Jose
+    # Returns tuple(resultantList, currentIndex)
+    def fetchData(self, amount: int, skip: int, result=[], currentIndex: int=0):
+        if self.left != None:
+            result, currentIndex = self.left.fetchData(amount, skip, result, currentIndex)
+
+        if len(result) >= amount:
+            return result, currentIndex
+        
+        if (currentIndex >= skip):
+            result.append(Barang(
+                self.value.namaBarang,
+                self.value.kodeBarang,
+                self.value.stokBarang
+            ))
+
+        currentIndex += 1
+
+        if self.right != None:
+            result, currentIndex = self.right.fetchData(amount, skip, result, currentIndex)
+
+        return result, currentIndex
+        
 class DataStruct:
     def __init__(self):
         self.items = None
