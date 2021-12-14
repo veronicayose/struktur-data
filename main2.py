@@ -144,6 +144,24 @@ def showTable(arr, startingNo=1):
         line_new = '{:>1} {:>2} {:>1} {:>20} {:>1} {:>14} {:>1} {:>14} {:>1}' .format("|", no, "|", arr[x].namaBarang, "|", arr[x].stokBarang, "|", arr[x].kodeBarang, "|")
         print(line_new)
 
+def tambahBarang():
+    print("--Menambahkan Barang--")
+    namaBarang = input("Masukan nama barang: ")
+    stokBarang = inputInt("Masukan jumlah stok barang: ")
+    kodeBarang = namaBarang
+    struct.add(Barang(namaBarang, kodeBarang, stokBarang))
+
+def hapusBarang():
+    print("--Menambahkan Barang--")
+    kodeBarang = input("Masukkan kode barang: ")
+    struct.remove(kodeBarang)
+
+def tambahAntrian():
+    print("--Menambahkan Antrian--")
+    kodeBarang = input("Input kode barang: ")
+    jumlahBarang = inputInt("Input jumlah barang: ")
+    struct.addQueue(kodeBarang, jumlahBarang)
+
 
 struct = DataStruct()
 struct.add(Barang('C', 'C', 2))
